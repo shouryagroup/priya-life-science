@@ -9,7 +9,7 @@ import { qualityPhoto } from '../data/media';
 <section class="section quality" id="quality" aria-labelledby="quality-title">
   <div class="container quality__grid">
     <div class="quality__copy">
-      <SectionHeading id="quality-title" eyebrow="Quality control" title="Quality at every stage of manufacturing" lead={quality.intro} />
+      <SectionHeading id="quality-title" eyebrow="Quality control" title="Quality built into the manufacturing process" lead={quality.intro} />
 
       <div class="quality__flow" data-reveal>
         <p class="quality__flow-label">Testing facilities for</p>
@@ -139,6 +139,12 @@ import { qualityPhoto } from '../data/media';
   .quality__frame {
     aspect-ratio: 8 / 9;
     box-shadow: var(--shadow-md);
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .quality__frame {
+      aspect-ratio: 4 / 3;
+    }
   }
 
   @media (min-width: 640px) {

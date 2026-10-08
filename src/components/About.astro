@@ -8,28 +8,6 @@ import { aboutPhoto } from '../data/media';
 
 <section class="section about" id="about" aria-labelledby="about-title">
   <div class="container about__grid">
-    <div class="about__visual" data-reveal>
-      <div class="media-frame about__frame">
-        <Picture
-          src={aboutPhoto.src}
-          alt={aboutPhoto.alt}
-          width={1200}
-          height={1400}
-          position="left"
-          widths={[400, 600, 800, 1000, 1200]}
-          sizes="(min-width: 1024px) 520px, calc(100vw - 2.5rem)"
-          quality={68}
-          loading="lazy"
-        />
-      </div>
-      <div class="about__reputation card">
-        <p class="about__reputation-title">Known for</p>
-        <ul class="check-list">
-          {overview.reputation.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
-    </div>
-
     <div class="about__copy">
       <SectionHeading id="about-title" eyebrow="About us" title={`A ${company.legalForm.toLowerCase()} built on pharmaceutical expertise`}>
         <p class="lead">{overview.intro}</p>
@@ -58,6 +36,28 @@ import { aboutPhoto } from '../data/media';
         </ul>
       </div>
     </div>
+
+    <div class="about__visual" data-reveal>
+      <div class="media-frame about__frame">
+        <Picture
+          src={aboutPhoto.src}
+          alt={aboutPhoto.alt}
+          width={1200}
+          height={1400}
+          position="left"
+          widths={[400, 600, 800, 1000, 1200]}
+          sizes="(min-width: 1024px) 520px, calc(100vw - 2.5rem)"
+          quality={68}
+          loading="lazy"
+        />
+      </div>
+      <div class="about__reputation card">
+        <p class="about__reputation-title">Known for</p>
+        <ul class="check-list">
+          {overview.reputation.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -70,7 +70,9 @@ import { aboutPhoto } from '../data/media';
 
   .about__visual {
     position: relative;
+    width: 100%;
     max-width: 560px;
+    margin-inline: auto;
   }
 
   .about__frame {
@@ -160,6 +162,7 @@ import { aboutPhoto } from '../data/media';
     }
 
     .about__visual {
+      order: -1;
       position: sticky;
       top: calc(var(--header-h) + 2rem);
     }

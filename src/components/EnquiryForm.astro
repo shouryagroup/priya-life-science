@@ -141,6 +141,13 @@ const { email } = Astro.props;
     const status = form.querySelector<HTMLElement>('[data-enquiry-status]');
     const recipient = form.dataset.recipient ?? '';
 
+    form.addEventListener('input', (event) => {
+      const field = event.target as HTMLInputElement;
+      if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+        field.setAttribute('aria-invalid', 'false');
+      }
+    });
+
     form.addEventListener('submit', (event) => {
       event.preventDefault();
 

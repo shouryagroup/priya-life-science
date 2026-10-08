@@ -225,15 +225,8 @@ import { network } from '../data/company';
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     }
 
-    .network__promise {
-      grid-template-columns: auto 1fr;
-      align-items: center;
-      gap: 2rem;
-    }
-
     .network__promise ul {
-      grid-template-columns: repeat(4, auto);
-      justify-content: end;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>

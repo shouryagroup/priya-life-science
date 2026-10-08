@@ -6,8 +6,9 @@ import { navigation } from '../data/company';
 
 <header class="site-header" data-site-header>
   <div class="container site-header__inner">
-    <a class="site-header__brand" href="#top" aria-label="Priya Life Science — back to top">
+    <a class="site-header__brand" href="#top">
       <BrandMark />
+      <span class="visually-hidden">— back to top</span>
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -304,7 +305,7 @@ import { navigation } from '../data/company';
       },
       { passive: true },
     );
-    update();
+    requestAnimationFrame(update);
   }
 
   if (menu && toggle && 'popover' in HTMLElement.prototype) {
