@@ -1,0 +1,139 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import SectionHeading from './ui/SectionHeading.astro';
+import Icon from './ui/Icon.astro';
+import type { FactoryVideoConfig } from '../data/types';
+
+interface Props {
+  video: FactoryVideoConfig;
+}
+
+const { video } = Astro.props;
+const poster = await getImage({ src: video.poster.src, width: 1600, height: 900, format: 'webp', quality: 70 });
+---
+
+<section class="section factory-video" id="factory-video" aria-labelledby="factory-video-title">
+  <div class="container">
+    <SectionHeading id="factory-video-title" eyebrow="Facility tour" title={video.title} lead={video.description} />
+
+    <div class="video-frame" data-reveal data-video data-src={video.src} data-type={video.type} data-poster={poster.src}>
+      <Picture
+        src={video.poster.src}
+        alt={video.poster.alt}
+        width={1600}
+        height={900}
+        widths={[480, 800, 1200, 1600]}
+        sizes="(min-width: 1240px) 1200px, calc(100vw - 2.5rem)"
+        quality={66}
+        loading="lazy"
+      />
+      <button class="video-frame__play" type="button" data-video-play>
+        <span class="video-frame__icon"><Icon name="play" size={26} /></span>
+        <span class="video-frame__label">
+          Play facility video{video.duration && <span> · {video.duration}</span>}
+        </span>
+      </button>
+      <noscript>
+        <a class="btn video-frame__fallback" href={video.src}>Open the facility video</a>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--c-navy);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .video-frame :global(img),
+  .video-frame :global(video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-frame :global(video) {
+    background: #000;
+  }
+
+  .video-frame__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.875rem;
+    border: 0;
+    background: linear-gradient(180deg, rgb(8 18 33 / 0.15), rgb(8 18 33 / 0.55));
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .video-frame__icon {
+    display: grid;
+    place-items: center;
+    width: clamp(64px, 8vw, 84px);
+    aspect-ratio: 1;
+    padding-left: 4px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--c-brand);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s var(--ease);
+  }
+
+  .video-frame__icon :global(svg) {
+    fill: currentColor;
+  }
+
+  .video-frame__play:hover .video-frame__icon {
+    transform: scale(1.06);
+  }
+
+  .video-frame__label {
+    font-weight: 600;
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.35);
+  }
+
+  .video-frame__fallback {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    translate: -50% 0;
+  }
+</style>
+
+<script>
+  // Facade pattern: the <video> element (and its network requests) is only created on demand.
+  for (const frame of document.querySelectorAll<HTMLElement>('[data-video]')) {
+    const button = frame.querySelector<HTMLButtonElement>('[data-video-play]');
+    const { src, type, poster } = frame.dataset;
+    if (!button || !src) continue;
+
+    button.addEventListener('click', () => {
+      const video = document.createElement('video');
+      video.controls = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      if (poster) video.poster = poster;
+      video.setAttribute('aria-label', button.textContent?.trim() || 'Facility video');
+
+      const source = document.createElement('source');
+      source.src = src;
+      if (type) source.type = type;
+      video.append(source);
+
+      frame.replaceChildren(video);
+      video.focus();
+      video.play().catch(() => {
+        /* Autoplay can be refused; native controls remain available. */
+      });
+    });
+  }
+</script>

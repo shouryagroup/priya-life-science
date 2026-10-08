@@ -1,0 +1,50 @@
+---
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  align?: 'start' | 'center';
+  tone?: 'light' | 'dark';
+}
+
+const { id, eyebrow, title, lead, align = 'start', tone = 'light' } = Astro.props;
+---
+
+<div class:list={['section-heading', `section-heading--${align}`, `section-heading--${tone}`]} data-reveal>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 id={id}>{title}</h2>
+  {lead && <p class="lead">{lead}</p>}
+  <slot />
+</div>
+
+<style>
+  .section-heading {
+    display: grid;
+    gap: 1rem;
+    max-width: 46rem;
+    margin-bottom: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .section-heading h2 {
+    font-size: var(--fs-h2);
+  }
+
+  .section-heading--center {
+    margin-inline: auto;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .section-heading--dark h2 {
+    color: #fff;
+  }
+
+  .section-heading--dark .eyebrow {
+    color: #8fb4ec;
+  }
+
+  .section-heading--dark .lead {
+    color: var(--c-on-dark-muted);
+  }
+</style>

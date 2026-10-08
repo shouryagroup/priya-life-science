@@ -1,0 +1,232 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './ui/Icon.astro';
+import { company, keyFacts } from '../data/company';
+import { heroPhoto } from '../data/media';
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow">Pharmaceutical &amp; nutraceutical manufacturer · {company.region}, {company.country}</p>
+      <h1 id="hero-title">Quality pharmaceutical &amp; nutraceutical manufacturing, since {company.foundedYear}.</h1>
+      <p class="lead hero__lead">
+        {company.name} manufactures, markets and supplies pharmaceutical and nutraceutical products from its own
+        facility in {company.region} — under its own brands and as a third-party contract manufacturer for partners
+        across India and international markets.
+      </p>
+      <div class="hero__actions">
+        <a class="btn" href="#products">Explore our products <Icon name="arrow-right" /></a>
+        <a class="btn btn--secondary" href="#facility">View the facility</a>
+      </div>
+      <ul class="hero__tagline" aria-label="Our principles">
+        {company.tagline.map((line) => <li>{line}</li>)}
+      </ul>
+    </div>
+
+    <div class="hero__visual">
+      <div class="media-frame hero__frame">
+        <Picture
+          src={heroPhoto.src}
+          alt={heroPhoto.alt}
+          width={1600}
+          height={1200}
+          widths={[480, 720, 960, 1280, 1600]}
+          sizes="(min-width: 1240px) 590px, (min-width: 960px) 48vw, calc(100vw - 2.5rem)"
+          quality={70}
+          priority
+        />
+      </div>
+      <div class="hero__badge card">
+        <span class="icon-badge"><Icon name="factory" /></span>
+        <span>
+          <strong>Own manufacturing facility</strong>
+          <span>In operation since {company.facilityEstablished}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <dl class="hero__facts card">
+      {
+        keyFacts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(2rem, 1rem + 4vw, 4.5rem) clamp(3rem, 2rem + 4vw, 5rem);
+    background:
+      radial-gradient(60rem 30rem at 85% -10%, rgb(42 89 166 / 0.08), transparent 70%),
+      linear-gradient(180deg, var(--c-surface) 0%, var(--c-surface-2) 100%);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(2rem, 1rem + 4vw, 4rem);
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+
+  .hero h1 {
+    font-size: var(--fs-h1);
+    font-weight: 720;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    max-width: 16ch;
+  }
+
+  .hero__lead {
+    max-width: 38rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .hero__tagline {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 0.75rem;
+    font-size: var(--fs-sm);
+    font-weight: 560;
+    color: var(--c-muted);
+  }
+
+  .hero__tagline li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero__tagline li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--c-accent);
+  }
+
+  .hero__visual {
+    position: relative;
+  }
+
+  .hero__frame {
+    aspect-ratio: 4 / 3;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero__badge {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin: -2rem 1rem 0;
+    position: relative;
+    padding: 0.875rem 1.125rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+  }
+
+  .hero__badge strong {
+    display: block;
+    color: var(--c-ink);
+    font-size: 0.9375rem;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .hero__badge span span {
+    font-size: var(--fs-sm);
+    color: var(--c-muted);
+  }
+
+  .hero__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: clamp(2.5rem, 2rem + 2vw, 4rem) 0 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero__facts div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+    padding: 1.25rem 1.25rem;
+    border-color: var(--c-border);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  .hero__facts div:nth-child(odd) {
+    border-right-width: 1px;
+  }
+
+  .hero__facts div:nth-child(-n + 2) {
+    border-bottom-width: 1px;
+  }
+
+  .hero__facts dt {
+    font-size: var(--fs-sm);
+    color: var(--c-muted);
+  }
+
+  .hero__facts dd {
+    margin: 0;
+    font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--c-ink);
+    line-height: 1.2;
+  }
+
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    }
+
+    .hero__badge {
+      position: absolute;
+      left: -2rem;
+      bottom: 2rem;
+      margin: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .hero__facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .hero__facts div {
+      padding: 1.5rem 1.75rem;
+      border-width: 0 1px 0 0 !important;
+    }
+
+    .hero__facts div:last-child {
+      border-right-width: 0 !important;
+    }
+  }
+</style>

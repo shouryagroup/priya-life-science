@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Manufacturing from '../components/Manufacturing.astro';
+import FactoryVideo from '../components/FactoryVideo.astro';
+import Quality from '../components/Quality.astro';
+import Products from '../components/Products.astro';
+import Leadership from '../components/Leadership.astro';
+import Network from '../components/Network.astro';
+import Mission from '../components/Mission.astro';
+import Contact from '../components/Contact.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { factoryVideo } from '../data/company';
+---
+
+<BaseLayout>
+  <SiteHeader />
+  <main id="main">
+    <Hero />
+    <About />
+    <Manufacturing />
+    {factoryVideo && <FactoryVideo video={factoryVideo} />}
+    <Quality />
+    <Products />
+    <Leadership />
+    <Network />
+    <Mission />
+    <Contact />
+  </main>
+  <SiteFooter />
+</BaseLayout>

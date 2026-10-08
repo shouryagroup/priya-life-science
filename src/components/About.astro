@@ -1,0 +1,174 @@
+---
+import { Picture } from 'astro:assets';
+import SectionHeading from './ui/SectionHeading.astro';
+import Icon from './ui/Icon.astro';
+import { company, overview, segments } from '../data/company';
+import { aboutPhoto } from '../data/media';
+---
+
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="container about__grid">
+    <div class="about__visual" data-reveal>
+      <div class="media-frame about__frame">
+        <Picture
+          src={aboutPhoto.src}
+          alt={aboutPhoto.alt}
+          width={1200}
+          height={1400}
+          position="left"
+          widths={[400, 600, 800, 1000, 1200]}
+          sizes="(min-width: 1024px) 520px, calc(100vw - 2.5rem)"
+          quality={68}
+          loading="lazy"
+        />
+      </div>
+      <div class="about__reputation card">
+        <p class="about__reputation-title">Known for</p>
+        <ul class="check-list">
+          {overview.reputation.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="about__copy">
+      <SectionHeading id="about-title" eyebrow="About us" title={`A ${company.legalForm.toLowerCase()} built on pharmaceutical expertise`}>
+        <p class="lead">{overview.intro}</p>
+      </SectionHeading>
+
+      <div class="about__body" data-reveal>
+        {overview.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="about__segments">
+        <p class="about__segments-label" data-reveal>Two business segments</p>
+        <ul>
+          {
+            segments.map((segment) => (
+              <li class="card about__segment" data-reveal>
+                <span class="icon-badge">
+                  <Icon name={segment.icon} />
+                </span>
+                <div>
+                  <h3>{segment.title}</h3>
+                  <p>{segment.description}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__grid {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    align-items: start;
+  }
+
+  .about__visual {
+    position: relative;
+    max-width: 560px;
+  }
+
+  .about__frame {
+    aspect-ratio: 6 / 7;
+    box-shadow: var(--shadow-md);
+  }
+
+  .about__reputation {
+    position: relative;
+    margin: -3rem 1rem 0 auto;
+    width: min(18rem, calc(100% - 2rem));
+    padding: 1.25rem 1.375rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .about__reputation-title {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  .about__reputation li {
+    color: var(--c-ink);
+    font-weight: 560;
+  }
+
+  .about__copy :global(.section-heading) {
+    margin-bottom: 1.5rem;
+  }
+
+  .about__body {
+    display: grid;
+    gap: 1rem;
+    max-width: 42rem;
+  }
+
+  .about__segments {
+    margin-top: 2.25rem;
+  }
+
+  .about__segments-label {
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  .about__segments ul {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .about__segment {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .about__segment h3 {
+    margin-bottom: 0.375rem;
+  }
+
+  .about__segment p {
+    font-size: 0.9375rem;
+    color: var(--c-muted);
+  }
+
+  @media (min-width: 640px) {
+    .about__segments ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about__segment {
+      flex-direction: column;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .about__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+
+    .about__visual {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+
+    .about__reputation {
+      position: absolute;
+      right: -1.5rem;
+      bottom: 2rem;
+      margin: 0;
+    }
+  }
+</style>

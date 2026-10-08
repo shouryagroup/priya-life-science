@@ -1,0 +1,97 @@
+---
+import { Picture } from 'astro:assets';
+import SectionHeading from './ui/SectionHeading.astro';
+import { partners, partnersBio } from '../data/media';
+import { company } from '../data/company';
+---
+
+<section class="section leadership" id="leadership" aria-labelledby="leadership-title">
+  <div class="container">
+    <SectionHeading id="leadership-title" eyebrow="Leadership" title="Led by pharmacy professionals" lead={partnersBio} />
+
+    <ul class="leadership__grid">
+      {
+        partners.map((partner) => (
+          <li class="card partner" data-reveal>
+            <div class="partner__photo">
+              <Picture
+                src={partner.photo.src}
+                alt={partner.photo.alt}
+                width={1200}
+                height={800}
+                widths={[400, 600, 800, 1200]}
+                sizes="(min-width: 1240px) 590px, (min-width: 768px) 48vw, calc(100vw - 2.5rem)"
+                quality={70}
+                loading="lazy"
+              />
+            </div>
+            <div class="partner__body">
+              <h3>{partner.name}</h3>
+              <p class="partner__role">
+                {partner.role}, {company.name}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="leadership__note" data-reveal>
+      With their professional expertise and industry knowledge, the firm has focused its activities on the
+      pharmaceutical and nutraceutical sectors.
+    </p>
+  </div>
+</section>
+
+<style>
+  .leadership__grid {
+    list-style: none;
+    display: grid;
+    gap: clamp(1rem, 0.75rem + 1vw, 1.75rem);
+  }
+
+  .partner {
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .partner__photo {
+    aspect-ratio: 3 / 2;
+    background: var(--c-surface-3);
+  }
+
+  .partner__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .partner__body {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-top: 3px solid var(--c-brand);
+  }
+
+  .partner h3 {
+    font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  }
+
+  .partner__role {
+    font-size: 0.9375rem;
+    font-weight: 560;
+    color: var(--c-muted);
+  }
+
+  .leadership__note {
+    max-width: 46rem;
+    margin-top: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+    color: var(--c-muted);
+  }
+
+  @media (min-width: 768px) {
+    .leadership__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

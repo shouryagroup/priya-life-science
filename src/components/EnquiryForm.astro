@@ -1,0 +1,181 @@
+---
+import Icon from './ui/Icon.astro';
+import { enquiryTopics } from '../data/company';
+
+interface Props {
+  email: string;
+}
+
+const { email } = Astro.props;
+---
+
+<!-- No backend: the form composes a pre-filled email in the visitor's own mail app. -->
+<form class="enquiry card" data-enquiry-form data-recipient={email} novalidate>
+  <h3>Send an enquiry</h3>
+  <div class="enquiry__grid">
+    <div class="field">
+      <label for="enq-name">Full name</label>
+      <input id="enq-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+    </div>
+    <div class="field">
+      <label for="enq-company">Company</label>
+      <input id="enq-company" name="company" type="text" autocomplete="organization" maxlength="160" />
+    </div>
+    <div class="field">
+      <label for="enq-email">Email</label>
+      <input id="enq-email" name="email" type="email" autocomplete="email" required maxlength="160" />
+    </div>
+    <div class="field">
+      <label for="enq-phone">Phone <span>(optional)</span></label>
+      <input id="enq-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
+    </div>
+    <div class="field field--full">
+      <label for="enq-topic">Enquiry type</label>
+      <select id="enq-topic" name="topic" required>
+        {enquiryTopics.map((topic) => <option value={topic}>{topic}</option>)}
+      </select>
+    </div>
+    <div class="field field--full">
+      <label for="enq-message">Message</label>
+      <textarea id="enq-message" name="message" rows="5" required maxlength="3000"></textarea>
+    </div>
+  </div>
+  <p class="enquiry__status" role="status" aria-live="polite" data-enquiry-status></p>
+  <button class="btn" type="submit">Compose email <Icon name="arrow-right" /></button>
+</form>
+
+<style>
+  .enquiry {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    box-shadow: var(--shadow-md);
+  }
+
+  .enquiry h3 {
+    font-size: 1.25rem;
+  }
+
+  .enquiry__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .field label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+
+  .field label span {
+    font-weight: 450;
+    color: var(--c-muted);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--radius-sm);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    font: inherit;
+    font-size: 1rem;
+    transition:
+      border-color 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+  }
+
+  .field :is(input, select, textarea):focus-visible {
+    outline: none;
+    border-color: var(--c-brand);
+    box-shadow: 0 0 0 3px rgb(31 79 154 / 0.18);
+  }
+
+  .field :is(input, select, textarea)[aria-invalid='true'] {
+    border-color: #b42318;
+  }
+
+  .enquiry__status:empty {
+    display: none;
+  }
+
+  .enquiry__status {
+    font-size: 0.9375rem;
+    color: var(--c-ink);
+  }
+
+  .enquiry__status.is-error {
+    color: #b42318;
+  }
+
+  .enquiry .btn {
+    justify-self: start;
+  }
+
+  @media (min-width: 640px) {
+    .enquiry__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-enquiry-form]')) {
+    const status = form.querySelector<HTMLElement>('[data-enquiry-status]');
+    const recipient = form.dataset.recipient ?? '';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('input, select, textarea')];
+      let firstInvalid: HTMLElement | null = null;
+      for (const field of fields) {
+        const valid = field.checkValidity();
+        field.setAttribute('aria-invalid', String(!valid));
+        if (!valid && !firstInvalid) firstInvalid = field;
+      }
+
+      if (firstInvalid) {
+        status?.classList.add('is-error');
+        if (status) status.textContent = 'Please complete the highlighted fields.';
+        firstInvalid.focus();
+        return;
+      }
+
+      const data = new FormData(form);
+      const value = (key: string) => String(data.get(key) ?? '').trim();
+      const subject = `Enquiry: ${value('topic')}${value('company') ? ` — ${value('company')}` : ''}`;
+      const body = [
+        value('message'),
+        '',
+        `Name: ${value('name')}`,
+        value('company') ? `Company: ${value('company')}` : null,
+        `Email: ${value('email')}`,
+        value('phone') ? `Phone: ${value('phone')}` : null,
+      ]
+        .filter((line) => line !== null)
+        .join('\n');
+
+      status?.classList.remove('is-error');
+      if (status) status.textContent = 'Opening your email app with the enquiry pre-filled…';
+      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  }
+</script>

@@ -1,0 +1,135 @@
+---
+import SectionHeading from './ui/SectionHeading.astro';
+import { company, mission } from '../data/company';
+---
+
+<section class="section mission" id="mission" aria-labelledby="mission-title">
+  <div class="container">
+    <SectionHeading id="mission-title" eyebrow="Mission & commitment" title={`${company.tagline[0]}. ${company.tagline[1]}.`} lead={mission.statement} />
+
+    <div class="mission__grid">
+      <ol class="mission__list">
+        {
+          mission.points.map((point, index) => (
+            <li data-reveal>
+              <span class="mission__num" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <p>{point}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <aside class="mission__values card" aria-labelledby="values-title" data-reveal>
+        <h3 id="values-title">Long-term success is built on</h3>
+        <ul class="mission__chips">
+          {mission.values.map((value) => <li>{value}</li>)}
+        </ul>
+        <h3 class="mission__strive-title">We continuously strive to</h3>
+        <ul class="check-list mission__strive">
+          {mission.strive.map((item) => <li>{item}</li>)}
+        </ul>
+        <blockquote>
+          <p>{mission.commitment}</p>
+        </blockquote>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mission__grid {
+    display: grid;
+    gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    align-items: start;
+  }
+
+  .mission__list {
+    list-style: none;
+    display: grid;
+    gap: 0;
+    counter-reset: none;
+  }
+
+  .mission__list li {
+    display: flex;
+    gap: 1.125rem;
+    padding: 1.125rem 0;
+    border-top: 1px solid var(--c-border);
+  }
+
+  .mission__list li:last-child {
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .mission__num {
+    flex: none;
+    width: 2rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--c-brand);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.9;
+  }
+
+  .mission__list p {
+    color: var(--c-ink);
+  }
+
+  .mission__values {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+    background: var(--c-brand-soft);
+    border-color: var(--c-brand-line);
+  }
+
+  .mission__values h3 {
+    font-size: 1.0625rem;
+  }
+
+  .mission__strive-title {
+    margin-top: 0.5rem;
+  }
+
+  .mission__strive {
+    font-size: 0.9375rem;
+    color: var(--c-ink);
+  }
+
+  .mission__chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mission__chips li {
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-surface);
+    border: 1px solid var(--c-brand-line);
+    color: var(--c-brand-strong);
+    font-size: 0.9375rem;
+    font-weight: 620;
+  }
+
+  .mission__values blockquote {
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--c-brand);
+    color: var(--c-text);
+  }
+
+  @media (min-width: 1024px) {
+    .mission__grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+
+    .mission__values {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+</style>

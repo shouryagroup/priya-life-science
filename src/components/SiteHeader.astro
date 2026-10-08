@@ -1,0 +1,358 @@
+---
+import BrandMark from './ui/BrandMark.astro';
+import Icon from './ui/Icon.astro';
+import { navigation } from '../data/company';
+---
+
+<header class="site-header" data-site-header>
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href="#top" aria-label="Priya Life Science — back to top">
+      <BrandMark />
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href} data-nav-link>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="btn site-header__cta" href="#contact">Enquire</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        popovertarget="mobile-menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Open menu"
+        data-menu-toggle
+      >
+        <Icon name="menu" size={22} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu" class="mobile-menu" popover aria-label="Site menu" data-mobile-menu>
+  <div class="mobile-menu__top">
+    <BrandMark />
+    <button class="menu-toggle" type="button" popovertarget="mobile-menu" popovertargetaction="hide" aria-label="Close menu">
+      <Icon name="close" size={22} />
+    </button>
+  </div>
+  <nav aria-label="Mobile">
+    <ul>
+      {
+        navigation.map((item) => (
+          <li>
+            <a href={item.href} data-nav-link>
+              {item.label}
+              <Icon name="chevron-right" size={18} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <a class="btn mobile-menu__cta" href="#contact">Send an enquiry <Icon name="arrow-right" /></a>
+</div>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 255 255 / 0.86);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 0.25s var(--ease),
+      box-shadow 0.25s var(--ease);
+  }
+
+  .site-header.is-scrolled {
+    border-bottom-color: var(--c-border);
+    box-shadow: 0 6px 24px rgb(15 31 56 / 0.06);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: var(--header-h);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    min-width: 0;
+    text-decoration: none;
+    border-radius: 12px;
+  }
+
+  .site-nav {
+    display: none;
+    margin-left: auto;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+  }
+
+  .site-nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.9375rem;
+    font-weight: 560;
+    color: var(--c-text);
+    text-decoration: none;
+    transition:
+      color 0.2s var(--ease),
+      background-color 0.2s var(--ease);
+  }
+
+  .site-nav a:hover {
+    color: var(--c-ink);
+    background: var(--c-surface-2);
+  }
+
+  .site-nav a.is-active {
+    color: var(--c-brand);
+    background: var(--c-brand-soft);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .site-header__cta {
+    display: none;
+    min-height: 42px;
+    padding-inline: 1.125rem;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    background: var(--c-surface);
+    color: var(--c-ink);
+    cursor: pointer;
+  }
+
+  .menu-toggle:hover {
+    background: var(--c-surface-2);
+  }
+
+  @media (min-width: 560px) {
+    .site-header__cta {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .site-nav {
+      display: block;
+    }
+
+    .site-header__actions {
+      margin-left: 0.5rem;
+    }
+
+    .site-header__actions .menu-toggle {
+      display: none;
+    }
+  }
+
+  /* Mobile menu (native popover: Esc and outside click close it without JS) */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0 0 auto auto;
+    width: min(100%, 420px);
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0.75rem var(--gutter) 1.5rem;
+    border: 0;
+    border-left: 1px solid var(--c-border);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-lg);
+    color: var(--c-text);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-menu:popover-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu::backdrop {
+    background: rgb(12 26 47 / 0.4);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu:popover-open {
+      animation: menu-in 0.32s var(--ease);
+    }
+
+    .mobile-menu::backdrop {
+      animation: fade-in 0.32s var(--ease);
+    }
+  }
+
+  @keyframes menu-in {
+    from {
+      transform: translateX(24px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .mobile-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: calc(var(--header-h) - 0.75rem);
+    margin-bottom: 1rem;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .mobile-menu nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 54px;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    text-decoration: none;
+  }
+
+  .mobile-menu nav a svg {
+    color: var(--c-muted);
+  }
+
+  .mobile-menu nav a:hover,
+  .mobile-menu nav a.is-active {
+    background: var(--c-brand-soft);
+    color: var(--c-brand);
+  }
+
+  .mobile-menu__cta {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  :global(html:has(.mobile-menu:popover-open)) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+  if (header) {
+    let ticking = false;
+    const update = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 8);
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+
+  if (menu && toggle && 'popover' in HTMLElement.prototype) {
+    menu.addEventListener('toggle', (event) => {
+      const open = (event as ToggleEvent).newState === 'open';
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open) menu.querySelector<HTMLAnchorElement>('nav a')?.focus();
+    });
+
+    for (const link of menu.querySelectorAll('a')) {
+      link.addEventListener('click', () => menu.hidePopover());
+    }
+
+    window.matchMedia('(min-width: 1120px)').addEventListener('change', (query) => {
+      if (query.matches) menu.hidePopover();
+    });
+  }
+
+  // Highlight the nav item for the section currently in view.
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+  const sections = [...new Set([...links].map((link) => link.hash))]
+    .map((hash) => document.querySelector<HTMLElement>(hash))
+    .filter((section): section is HTMLElement => section !== null);
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    const setActive = (id: string | null) => {
+      for (const link of links) {
+        const active = link.hash === `#${id}`;
+        link.classList.toggle('is-active', active);
+        if (active) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length) setActive(visible[visible.length - 1].target.id);
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
+    sections.forEach((section) => observer.observe(section));
+
+    const hero = document.getElementById('top');
+    if (hero) {
+      new IntersectionObserver(([entry]) => entry.isIntersecting && setActive(null), {
+        rootMargin: '-45% 0px -50% 0px',
+      }).observe(hero);
+    }
+  }
+</script>

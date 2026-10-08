@@ -1,0 +1,146 @@
+---
+import BrandMark from './ui/BrandMark.astro';
+import { company, navigation, overview } from '../data/company';
+import { getContactChannels, socialLinks } from '../lib/contact';
+
+const channels = getContactChannels();
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <BrandMark tone="light" />
+      <p>{overview.intro}</p>
+      <p class="site-footer__tagline">{company.tagline.join(' · ')}</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <h2 class="site-footer__heading">Explore</h2>
+      <ul>
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="site-footer__heading">Contact</h2>
+      <ul>
+        <li>{company.region}, {company.country}</li>
+        {
+          channels.map((channel) => (
+            <li>
+              {channel.href ? (
+                <a href={channel.href} {...(channel.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                  {channel.value}
+                </a>
+              ) : (
+                channel.value
+              )}
+            </li>
+          ))
+        }
+        {
+          socialLinks.map((social) => (
+            <li>
+              <a href={social.href} target="_blank" rel="noopener noreferrer">
+                {social.label}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="#contact">Send an enquiry</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {company.name}. All rights reserved.</p>
+    <a href="#top">Back to top ↑</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: clamp(3rem, 2rem + 4vw, 5rem);
+    background: var(--c-navy);
+    color: var(--c-on-dark-muted);
+    font-size: 0.9375rem;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: 2.5rem;
+    padding-bottom: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  }
+
+  .site-footer__brand {
+    display: grid;
+    gap: 1rem;
+    max-width: 26rem;
+  }
+
+  .site-footer__tagline {
+    color: #8fb4ec;
+    font-weight: 560;
+    font-size: 0.875rem;
+  }
+
+  .site-footer__heading {
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .site-footer ul {
+    list-style: none;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .site-footer li {
+    white-space: pre-line;
+  }
+
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: var(--c-on-dark);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+  .site-footer li:not(:has(a)) {
+    padding-block: 0.4rem;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-block: 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+</style>

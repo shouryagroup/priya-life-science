@@ -1,0 +1,301 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import Icon from './ui/Icon.astro';
+import type { GalleryItem } from '../data/types';
+
+interface Props {
+  items: GalleryItem[];
+  label: string;
+}
+
+const { items, label } = Astro.props;
+
+const enlarged = await Promise.all(
+  items.map((item) => getImage({ src: item.src, width: 1800, format: 'webp', quality: 76 })),
+);
+---
+
+<div class="gallery" data-gallery>
+  <ul class="gallery__grid" aria-label={label}>
+    {
+      items.map((item, index) => (
+        <li class="gallery__item" data-reveal>
+          <a
+            class="gallery__link"
+            href={enlarged[index].src}
+            data-gallery-trigger
+            data-full={enlarged[index].src}
+            data-alt={item.alt}
+            data-caption={item.caption}
+          >
+            <Picture
+              src={item.src}
+              alt={item.alt}
+              width={1200}
+              height={800}
+              widths={[400, 600, 800, 1200]}
+              sizes="(min-width: 768px) min(590px, 48vw), calc(100vw - 2.5rem)"
+              quality={66}
+              loading="lazy"
+            />
+            <span class="gallery__caption">
+              <span>{item.caption}</span>
+              <span class="gallery__expand" aria-hidden="true">
+                <Icon name="expand" size={16} />
+              </span>
+            </span>
+            <span class="visually-hidden">— open larger image</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <dialog class="lightbox" aria-label="Image viewer" data-lightbox>
+    <div class="lightbox__inner">
+      <figure class="lightbox__figure">
+        <img class="lightbox__img" alt="" width="1800" height="1200" data-lightbox-img />
+        <figcaption class="lightbox__caption" data-lightbox-caption></figcaption>
+      </figure>
+      <button class="lightbox__btn lightbox__close" type="button" aria-label="Close image viewer" data-lightbox-close>
+        <Icon name="close" size={22} />
+      </button>
+      <button class="lightbox__btn lightbox__prev" type="button" aria-label="Previous image" data-lightbox-prev>
+        <Icon name="chevron-left" size={24} />
+      </button>
+      <button class="lightbox__btn lightbox__next" type="button" aria-label="Next image" data-lightbox-next>
+        <Icon name="chevron-right" size={24} />
+      </button>
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .gallery__grid {
+    list-style: none;
+    display: grid;
+    gap: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  }
+
+  .gallery__link {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--c-surface-3);
+    box-shadow: var(--shadow-sm);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .gallery__link :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .gallery__link:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  .gallery__caption {
+    position: absolute;
+    inset: auto 0 0 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 2.5rem 1.125rem 1rem;
+    background: linear-gradient(180deg, transparent, rgb(8 18 33 / 0.72));
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .gallery__expand {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .gallery__link:focus-visible {
+    border-radius: var(--radius-md);
+  }
+
+  @media (min-width: 768px) {
+    .gallery__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Lightbox */
+  .lightbox {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(6 14 26 / 0.94);
+    color: #fff;
+  }
+
+  .lightbox::backdrop {
+    background: transparent;
+  }
+
+  .lightbox[open] {
+    display: grid;
+  }
+
+  .lightbox__inner {
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 4.5rem 1rem 1.5rem;
+  }
+
+  .lightbox__figure {
+    display: grid;
+    gap: 0.875rem;
+    justify-items: center;
+    margin: 0;
+    max-width: min(1400px, 100%);
+  }
+
+  .lightbox__img {
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100dvh - 9rem);
+    border-radius: var(--radius-sm);
+    object-fit: contain;
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  .lightbox__caption {
+    font-size: 0.9375rem;
+    color: var(--c-on-dark);
+    text-align: center;
+  }
+
+  .lightbox__btn {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease);
+  }
+
+  .lightbox__btn:hover {
+    background: rgb(255 255 255 / 0.18);
+  }
+
+  .lightbox__close {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .lightbox__prev,
+  .lightbox__next {
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .lightbox__prev {
+    left: 1rem;
+  }
+
+  .lightbox__next {
+    right: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    .lightbox__prev,
+    .lightbox__next {
+      top: auto;
+      bottom: 1rem;
+      translate: none;
+    }
+
+    .lightbox__inner {
+      padding-bottom: 5rem;
+    }
+
+    .lightbox__img {
+      max-height: calc(100dvh - 12rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox[open] {
+      animation: lightbox-in 0.25s var(--ease);
+    }
+  }
+
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  for (const gallery of document.querySelectorAll<HTMLElement>('[data-gallery]')) {
+    const dialog = gallery.querySelector<HTMLDialogElement>('[data-lightbox]');
+    const img = gallery.querySelector<HTMLImageElement>('[data-lightbox-img]');
+    const caption = gallery.querySelector<HTMLElement>('[data-lightbox-caption]');
+    const triggers = [...gallery.querySelectorAll<HTMLAnchorElement>('[data-gallery-trigger]')];
+
+    if (!dialog || !img || !caption || !triggers.length || typeof dialog.showModal !== 'function') continue;
+
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + triggers.length) % triggers.length;
+      const { full = '', alt = '', caption: text = '' } = triggers[current].dataset;
+      img.src = full;
+      img.alt = alt;
+      caption.textContent = `${text} · ${current + 1} of ${triggers.length}`;
+    };
+
+    triggers.forEach((trigger, index) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        show(index);
+        dialog.showModal();
+      });
+    });
+
+    gallery.querySelector('[data-lightbox-close]')?.addEventListener('click', () => dialog.close());
+    gallery.querySelector('[data-lightbox-prev]')?.addEventListener('click', () => show(current - 1));
+    gallery.querySelector('[data-lightbox-next]')?.addEventListener('click', () => show(current + 1));
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog || event.target === dialog.firstElementChild) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => {
+      img.removeAttribute('src');
+    });
+  }
+</script>

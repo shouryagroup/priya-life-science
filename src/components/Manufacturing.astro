@@ -1,0 +1,115 @@
+---
+import SectionHeading from './ui/SectionHeading.astro';
+import Icon from './ui/Icon.astro';
+import MediaGallery from './MediaGallery.astro';
+import { capabilities } from '../data/company';
+import { facilityGallery } from '../data/media';
+---
+
+<section class="section section--tint manufacturing" id="facility" aria-labelledby="facility-title">
+  <div class="container">
+    <SectionHeading
+      id="facility-title"
+      eyebrow="Manufacturing facility"
+      title="A well-equipped facility for a wide range of formulations"
+      lead="Priya Life Science operates a well-equipped manufacturing facility designed to support the production of a wide range of pharmaceutical formulations."
+    />
+
+    <ul class="capabilities">
+      {
+        capabilities.map((capability) => (
+          <li class="card capability" data-reveal>
+            <span class="icon-badge">
+              <Icon name={capability.icon} />
+            </span>
+            <h3>{capability.title}</h3>
+            <p>{capability.description}</p>
+            {capability.points && (
+              <ul class="capability__points" aria-label={`${capability.title} formats`}>
+                {capability.points.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="manufacturing__gallery">
+      <h3 class="manufacturing__gallery-title" data-reveal>Inside the facility</h3>
+      <MediaGallery items={facilityGallery} label="Facility photographs" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .capabilities {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .capability {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    transition:
+      box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+
+  .capability:hover {
+    border-color: var(--c-brand-line);
+    box-shadow: var(--shadow-md);
+  }
+
+  .capability .icon-badge {
+    margin-bottom: 0.25rem;
+  }
+
+  .capability p {
+    font-size: 0.9375rem;
+    color: var(--c-muted);
+  }
+
+  .capability__points {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .capability__points li {
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-brand-soft);
+    color: var(--c-brand-strong);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .manufacturing__gallery {
+    margin-top: clamp(3rem, 2rem + 3vw, 4.5rem);
+  }
+
+  .manufacturing__gallery-title {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  }
+
+  @media (min-width: 640px) {
+    .capabilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .capabilities {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

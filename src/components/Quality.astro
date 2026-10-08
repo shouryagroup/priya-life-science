@@ -1,0 +1,160 @@
+---
+import { Picture } from 'astro:assets';
+import SectionHeading from './ui/SectionHeading.astro';
+import Icon from './ui/Icon.astro';
+import { quality } from '../data/company';
+import { qualityPhoto } from '../data/media';
+---
+
+<section class="section quality" id="quality" aria-labelledby="quality-title">
+  <div class="container quality__grid">
+    <div class="quality__copy">
+      <SectionHeading id="quality-title" eyebrow="Quality control" title="Quality at every stage of manufacturing" lead={quality.intro} />
+
+      <div class="quality__flow" data-reveal>
+        <p class="quality__flow-label">Testing facilities for</p>
+        <ol>
+          {
+            quality.testing.map((stage, index) => (
+              <li>
+                <span class="quality__step">{String(index + 1).padStart(2, '0')}</span>
+                {stage}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+
+      <ul class="quality__practices">
+        {
+          quality.practices.map((practice) => (
+            <li data-reveal>
+              <span class="icon-badge quality__icon">
+                <Icon name={practice.icon} />
+              </span>
+              <div>
+                <h3>{practice.title}</h3>
+                <p>{practice.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="media-frame quality__frame" data-reveal>
+      <Picture
+        src={qualityPhoto.src}
+        alt={qualityPhoto.alt}
+        width={1200}
+        height={1350}
+        position="left"
+        widths={[400, 600, 800, 1000, 1200]}
+        sizes="(min-width: 1024px) 480px, calc(100vw - 2.5rem)"
+        quality={68}
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .quality__grid {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    align-items: center;
+  }
+
+  .quality__flow {
+    margin-bottom: 2.25rem;
+  }
+
+  .quality__flow-label {
+    margin-bottom: 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  .quality__flow ol {
+    list-style: none;
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .quality__flow li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    background: var(--c-surface);
+    font-weight: 600;
+    color: var(--c-ink);
+  }
+
+  .quality__step {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 8px;
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quality__practices {
+    list-style: none;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .quality__practices li {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .quality__icon {
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+  }
+
+  .quality__practices h3 {
+    margin-bottom: 0.25rem;
+    font-size: 1.0625rem;
+  }
+
+  .quality__practices p {
+    font-size: 0.9375rem;
+    color: var(--c-muted);
+  }
+
+  .quality__frame {
+    aspect-ratio: 8 / 9;
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (min-width: 640px) {
+    .quality__flow ol {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .quality__practices {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.75rem 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .quality__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr);
+    }
+  }
+</style>

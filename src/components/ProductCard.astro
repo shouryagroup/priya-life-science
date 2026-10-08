@@ -1,0 +1,133 @@
+---
+import { Picture } from 'astro:assets';
+import type { Product } from '../data/types';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const specs = [product.strength, product.pack].filter(Boolean);
+---
+
+<article class="product card" aria-labelledby={`product-${product.id}`}>
+  <div class="product__media">
+    <Picture
+      src={product.photo.src}
+      alt={product.photo.alt}
+      width={800}
+      height={1000}
+      position={product.focus ?? 'center'}
+      widths={[280, 400, 560, 800]}
+      sizes="(min-width: 1240px) 280px, (min-width: 1024px) 23vw, (min-width: 768px) 31vw, 46vw"
+      quality={70}
+      loading="lazy"
+    />
+  </div>
+  <div class="product__body">
+    {product.form && <p class="product__form">{product.form}</p>}
+    <h3 id={`product-${product.id}`}>{product.name}</h3>
+    {product.composition && <p class="product__composition">{product.composition}</p>}
+    {specs.length > 0 && <p class="product__specs">{specs.join(' · ')}</p>}
+    {
+      product.labelNotes && (
+        <ul class="product__notes" aria-label="Printed on pack">
+          {product.labelNotes.map((note) => (
+            <li>{note}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    transition:
+      box-shadow 0.3s var(--ease),
+      border-color 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+
+  .product:hover {
+    border-color: var(--c-brand-line);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .product__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--c-surface-3);
+  }
+
+  .product__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .product:hover .product__media :global(img) {
+    transform: scale(1.03);
+  }
+
+  .product__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    flex: 1;
+    padding: clamp(0.875rem, 0.7rem + 0.6vw, 1.25rem);
+  }
+
+  .product__form {
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-brand);
+  }
+
+  .product h3 {
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+  }
+
+  .product__composition {
+    font-size: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
+    line-height: 1.5;
+    color: var(--c-text);
+  }
+
+  .product__specs {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .product__notes {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+  }
+
+  .product__notes li {
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-accent-soft);
+    color: var(--c-accent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+</style>

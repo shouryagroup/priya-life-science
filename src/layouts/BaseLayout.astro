@@ -1,0 +1,69 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '../styles/global.css';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import { getImage } from 'astro:assets';
+import { company } from '../data/company';
+import { heroPhoto } from '../data/media';
+import { organizationSchema, toJsonLd } from '../lib/structured-data';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = company.seo.title, description = company.seo.description } = Astro.props;
+
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
+
+const ogImage = await getImage({ src: heroPhoto.src, width: 1200, height: 630, format: 'jpg', quality: 80 });
+const ogImageUrl = site ? new URL(ogImage.src, site).href : ogImage.src;
+
+const jsonLd = toJsonLd(organizationSchema(site, site ? ogImageUrl : undefined));
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_IN" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={heroPhoto.alt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={heroPhoto.alt} />
+
+    <script type="application/ld+json" is:inline set:html={jsonLd} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

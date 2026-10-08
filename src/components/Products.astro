@@ -1,0 +1,123 @@
+---
+import { Picture } from 'astro:assets';
+import SectionHeading from './ui/SectionHeading.astro';
+import ProductCard from './ProductCard.astro';
+import Icon from './ui/Icon.astro';
+import { products, productRangePhoto } from '../data/products';
+import { segments } from '../data/company';
+---
+
+<section class="section section--tint products" id="products" aria-labelledby="products-title">
+  <div class="container">
+    <SectionHeading
+      id="products-title"
+      eyebrow="Products"
+      title="Liquid oral formulations from our portfolio"
+      lead="A selection of syrups, suspensions and drops photographed at our facility. Product details are shown exactly as printed on each pack."
+    />
+
+    <ul class="products__grid" aria-label="Featured products">
+      {
+        products.map((product) => (
+          <li data-reveal>
+            <ProductCard product={product} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="range card" data-reveal>
+      <div class="range__media">
+        <Picture
+          src={productRangePhoto.src}
+          alt={productRangePhoto.alt}
+          width={1600}
+          height={1067}
+          widths={[480, 800, 1200, 1600]}
+          sizes="(min-width: 1024px) 680px, calc(100vw - 2.5rem)"
+          quality={68}
+          loading="lazy"
+        />
+      </div>
+      <div class="range__copy">
+        <p class="eyebrow">Our wider range</p>
+        <h3>Own brands and third-party manufacturing</h3>
+        <p>
+          Our products are manufactured across two business segments — {segments[0].title.toLowerCase()} and
+          {' '}{segments[1].title.toLowerCase()} — and are marketed across various parts of India and supplied to international
+          markets through our business associates.
+        </p>
+        <a class="btn" href="#contact">Enquire about products <Icon name="arrow-right" /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .products__grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  }
+
+  .range {
+    display: grid;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .range__media {
+    aspect-ratio: 3 / 2;
+    background: var(--c-surface-3);
+  }
+
+  .range__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .range__copy {
+    display: grid;
+    gap: 1rem;
+    align-content: center;
+    justify-items: start;
+    padding: clamp(1.5rem, 1rem + 2vw, 3rem);
+  }
+
+  .range__copy h3 {
+    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+    letter-spacing: -0.02em;
+  }
+
+  .range__copy p:not(.eyebrow) {
+    color: var(--c-muted);
+  }
+
+  .range__copy .btn {
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .products__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .range {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+
+    .range__media {
+      aspect-ratio: auto;
+      min-height: 100%;
+    }
+  }
+</style>
