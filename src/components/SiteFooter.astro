@@ -1,10 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BrandMark from './ui/BrandMark.astro';
-import { company, navigation, overview } from '../data/company';
+import { certification, company, contact, navigation, overview } from '../data/company';
 import { getContactChannels, socialLinks } from '../lib/contact';
 
 const channels = getContactChannels();
-const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
@@ -13,6 +13,10 @@ const year = new Date().getFullYear();
       <BrandMark tone="light" />
       <p>{overview.intro}</p>
       <p class="site-footer__tagline">{company.tagline.join(' · ')}</p>
+      <div class="site-footer__cert">
+        <Image src={certification.image} alt={certification.alt} width={64} loading="lazy" />
+        <span>{certification.label}</span>
+      </div>
     </div>
 
     <nav aria-label="Footer">
@@ -31,7 +35,7 @@ const year = new Date().getFullYear();
     <div>
       <h2 class="site-footer__heading">Contact</h2>
       <ul>
-        <li>{company.region}, {company.country}</li>
+        {contact.addressLines.length === 0 && <li>{company.region}, {company.country}</li>}
         {
           channels.map((channel) => (
             <li>
@@ -60,7 +64,9 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="container site-footer__bottom">
-    <p>© {year} {company.name}. All rights reserved.</p>
+    <p>
+      © {company.copyrightYear} {company.name}. All rights reserved.{contact.gstin && ` · GSTIN ${contact.gstin}`}
+    </p>
     <a href="#top">Back to top ↑</a>
   </div>
 </footer>
@@ -89,6 +95,24 @@ const year = new Date().getFullYear();
     color: #8fb4ec;
     font-weight: 560;
     font-size: 0.875rem;
+  }
+
+  .site-footer__cert {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.875rem;
+    justify-self: start;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--c-ink);
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .site-footer__cert img {
+    width: 64px;
+    height: auto;
   }
 
   .site-footer__heading {

@@ -1,8 +1,8 @@
 ---
-import { Picture } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import SectionHeading from './ui/SectionHeading.astro';
 import Icon from './ui/Icon.astro';
-import { quality } from '../data/company';
+import { certification, quality } from '../data/company';
 import { qualityPhoto } from '../data/media';
 ---
 
@@ -10,6 +10,14 @@ import { qualityPhoto } from '../data/media';
   <div class="container quality__grid">
     <div class="quality__copy">
       <SectionHeading id="quality-title" eyebrow="Quality control" title="Quality built into the manufacturing process" lead={quality.intro} />
+
+      <div class="quality__cert" data-reveal>
+        <Image src={certification.image} alt={certification.alt} width={88} loading="lazy" />
+        <div>
+          <p class="quality__cert-kicker">Certification</p>
+          <p class="quality__cert-label">{certification.label}</p>
+        </div>
+      </div>
 
       <div class="quality__flow" data-reveal>
         <p class="quality__flow-label">Testing facilities for</p>
@@ -63,6 +71,38 @@ import { qualityPhoto } from '../data/media';
     display: grid;
     gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
     align-items: center;
+  }
+
+  .quality__cert {
+    display: flex;
+    align-items: center;
+    gap: 1.125rem;
+    margin-bottom: 2.25rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-sm);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .quality__cert img {
+    flex: none;
+    width: 88px;
+    height: auto;
+  }
+
+  .quality__cert-kicker {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-muted);
+  }
+
+  .quality__cert-label {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--c-ink);
   }
 
   .quality__flow {

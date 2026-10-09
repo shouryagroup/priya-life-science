@@ -165,6 +165,18 @@ Our commitment is to create **long-term value for our customers and business par
 
 ---
 
+## 8. CONTACT & REGISTRATION
+
+Transcribed from the company signboard shown in the opening frames of the factory video (`src/assets/images/Factory_Video.mp4`).
+
+- **Address:** Plot No. 174-A/175, Siddhi Industrial Infrastructure Park, Opp. Waghodia G.I.D.C., Waghodia – 391 760, Gujarat, India
+- **GSTIN:** 24AAKFP3605Q1ZV
+- **Telephone:** 02668-262955
+- **Email:** not yet supplied
+- **Certification:** An ISO 9001 : 2000 Certified Company (badge: `src/assets/images/ISO_certified_Logo.png`)
+
+---
+
 # PRIYA LIFE SCIENCE
 
 > **Committed to Quality | Driven by Growth | Building Long-Term Partnerships**

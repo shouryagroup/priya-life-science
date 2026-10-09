@@ -1,4 +1,4 @@
-import { contact } from '../data/company';
+import { company, contact } from '../data/company';
 import type { IconName } from '../data/types';
 
 export interface ContactChannel {
@@ -30,7 +30,7 @@ export function getContactChannels(): ContactChannel[] {
     channels.push({
       icon: 'map-pin',
       label: 'Address',
-      value: contact.addressLines.join('\n'),
+      value: [...contact.addressLines, `${company.region}, ${company.country}`].join('\n'),
       href: contact.mapUrl ? safeHref(contact.mapUrl) : undefined,
       external: true,
     });

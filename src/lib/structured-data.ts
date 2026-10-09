@@ -12,6 +12,8 @@ export function organizationSchema(siteUrl?: URL, imageUrl?: string) {
     address: {
       '@type': 'PostalAddress',
       ...(contact.addressLines.length ? { streetAddress: contact.addressLines.join(', ') } : {}),
+      ...(contact.locality ? { addressLocality: contact.locality } : {}),
+      ...(contact.postalCode ? { postalCode: contact.postalCode } : {}),
       addressRegion: company.region,
       addressCountry: company.countryCode,
     },
@@ -21,6 +23,7 @@ export function organizationSchema(siteUrl?: URL, imageUrl?: string) {
   if (imageUrl) schema.image = imageUrl;
   if (contact.phones[0]) schema.telephone = contact.phones[0].value;
   if (contact.emails[0]) schema.email = contact.emails[0].value;
+  if (contact.gstin) schema.taxID = contact.gstin;
 
   const sameAs = contact.socials.map((social) => social.href);
   if (sameAs.length) schema.sameAs = sameAs;

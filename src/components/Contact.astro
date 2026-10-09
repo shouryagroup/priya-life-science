@@ -2,7 +2,7 @@
 import SectionHeading from './ui/SectionHeading.astro';
 import Icon from './ui/Icon.astro';
 import EnquiryForm from './EnquiryForm.astro';
-import { company, enquiryTopics } from '../data/company';
+import { company, contact, enquiryTopics } from '../data/company';
 import { getContactChannels, primaryEmail } from '../lib/contact';
 
 const channels = getContactChannels();
@@ -33,16 +33,25 @@ const channels = getContactChannels();
           <p>
             {company.legalForm} · Est. {company.foundedYear}
           </p>
+          {contact.gstin && <p>GSTIN {contact.gstin}</p>}
         </div>
 
         <ul class="contact__channels">
-          <li>
-            <span class="icon-badge"><Icon name="map-pin" /></span>
-            <span>
-              <span class="contact__channel-label">Location</span>
-              <span class="contact__channel-value">{company.region}, {company.country}</span>
-            </span>
-          </li>
+          {
+            contact.addressLines.length === 0 && (
+              <li>
+                <span class="icon-badge">
+                  <Icon name="map-pin" />
+                </span>
+                <span>
+                  <span class="contact__channel-label">Location</span>
+                  <span class="contact__channel-value">
+                    {company.region}, {company.country}
+                  </span>
+                </span>
+              </li>
+            )
+          }
           {
             channels.map((channel) => (
               <li>
@@ -67,14 +76,6 @@ const channels = getContactChannels();
             ))
           }
         </ul>
-
-        {
-          channels.length === 0 && (
-            <p class="contact__pending">
-              Direct phone, email and address details for enquiries will be published here.
-            </p>
-          )
-        }
       </div>
 
       {primaryEmail && <EnquiryForm email={primaryEmail} />}
@@ -166,15 +167,6 @@ const channels = getContactChannels();
 
   a.contact__channel-value:hover {
     text-decoration: underline;
-  }
-
-  .contact__pending {
-    padding: 0.875rem 1rem;
-    border: 1px dashed var(--c-brand-line);
-    border-radius: var(--radius-sm);
-    background: var(--c-brand-soft);
-    font-size: 0.9375rem;
-    color: var(--c-brand-strong);
   }
 
   @media (min-width: 1024px) {

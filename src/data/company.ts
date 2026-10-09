@@ -1,10 +1,13 @@
 // Source of truth: docs/company-profile.md. Do not add facts that are not in that document.
+import factoryVideoPoster from '../assets/images/factory-video-poster.jpg';
+import isoBadge from '../assets/images/iso-9001-certified.png';
 import type { Capability, ContactDetails, FactoryVideoConfig, NavItem } from './types';
 
 export const company = {
   name: 'Priya Life Science',
   legalForm: 'Partnership firm',
   foundedYear: 2008,
+  copyrightYear: 2024,
   facilityEstablished: '2008–09',
   region: 'Gujarat',
   country: 'India',
@@ -178,24 +181,41 @@ export const enquiryTopics = [
 ];
 
 /**
- * No verified contact details were supplied in the company profile.
- * Fill these in and the Contact section, footer, enquiry form and structured data update automatically.
+ * Address and GSTIN are transcribed from the facility signboard (see docs/company-profile.md §8).
+ * The enquiry form appears once an email is added.
  */
 export const contact: ContactDetails = {
-  addressLines: [],
-  phones: [],
+  addressLines: ['Plot No. 174-A/175, Siddhi Industrial Infrastructure Park, Opp. Waghodia G.I.D.C., Waghodia – 391 760'],
+  locality: 'Waghodia',
+  postalCode: '391760',
+  gstin: '24AAKFP3605Q1ZV',
+  phones: [{ label: 'Telephone', value: '02668-262955' }],
   emails: [],
   whatsapp: null,
   website: null,
-  mapUrl: null,
+  mapUrl:
+    'https://www.google.com/maps/search/?api=1&query=Priya+Life+Science+Siddhi+Industrial+Infrastructure+Park+Waghodia+391760',
   socials: [],
 };
 
-/**
- * Set to a config object once the factory video file is placed in /public/media.
- * The section stays hidden while this is null.
- */
-export const factoryVideo: FactoryVideoConfig | null = null;
+export const certification = {
+  label: 'An ISO 9001 : 2000 Certified Company',
+  image: isoBadge,
+  alt: 'ISO 9001 : 2000 certification mark',
+};
+
+export const factoryVideo: FactoryVideoConfig | null = {
+  src: '/media/factory-tour.mp4',
+  type: 'video/mp4',
+  poster: {
+    src: factoryVideoPoster,
+    alt: 'Packing staff in blue uniforms assembling product cartons at the Priya Life Science facility',
+  },
+  title: 'A walk through our manufacturing facility',
+  description:
+    'Manufacturing, quality control, packing and dispatch — filmed at our facility in Waghodia, Gujarat.',
+  duration: '0:58',
+};
 
 export const navigation: NavItem[] = [
   { label: 'About', href: '#about' },

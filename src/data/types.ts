@@ -44,8 +44,12 @@ export interface GalleryItem extends Photo {
 }
 
 export interface ContactDetails {
-  /** Postal address, one line per entry. Leave empty until a verified address is supplied. */
+  /** Street address, one line per entry, without region/country (those come from `company`). */
   addressLines: string[];
+  locality: string | null;
+  postalCode: string | null;
+  /** GST identification number, as printed on the facility signboard. */
+  gstin: string | null;
   phones: { label: string; value: string }[];
   emails: { label: string; value: string }[];
   /** International format without spaces or "+", e.g. 91XXXXXXXXXX. */
