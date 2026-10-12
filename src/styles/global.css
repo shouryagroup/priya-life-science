@@ -9,24 +9,25 @@
 }
 
 :root {
-  /* Palette sampled from the facility: door/floor blues, white walls, label green. */
-  --c-ink: #0f1f38;
-  --c-text: #3a4a60;
-  --c-muted: #5a6a80;
-  --c-brand: #1f4f9a;
-  --c-brand-strong: #163d7a;
-  --c-brand-soft: #eaf1fb;
-  --c-brand-line: #cddbf0;
-  --c-accent: #0f7347;
-  --c-accent-soft: #e6f4ec;
+  /* Palette sampled from the company logo: indigo-navy "Life Science" (#2e3192) and capsule red (#ed2024).
+     Accent text uses a deeper red so small labels keep AA contrast on white. */
+  --c-ink: #151842;
+  --c-text: #3c4064;
+  --c-muted: #5c6084;
+  --c-brand: #2e3192;
+  --c-brand-strong: #22257a;
+  --c-brand-soft: #eeeffa;
+  --c-brand-line: #d4d6f1;
+  --c-accent: #d01f25;
+  --c-accent-soft: #fdeced;
   --c-surface: #ffffff;
-  --c-surface-2: #f5f7fa;
-  --c-surface-3: #edf1f6;
-  --c-border: #e1e7ef;
-  --c-navy: #0c1a2f;
-  --c-navy-2: #13253f;
-  --c-on-dark: #e8eef7;
-  --c-on-dark-muted: #a9b7cb;
+  --c-surface-2: #f6f6fb;
+  --c-surface-3: #eeeff7;
+  --c-border: #e3e4f0;
+  --c-navy: #13153d;
+  --c-navy-2: #1b1e4f;
+  --c-on-dark: #eceefa;
+  --c-on-dark-muted: #b0b3d4;
 
   --font-sans: 'Inter Variable', 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
@@ -43,10 +44,10 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
 
-  --shadow-xs: 0 1px 2px rgb(15 31 56 / 0.06);
-  --shadow-sm: 0 1px 2px rgb(15 31 56 / 0.04), 0 4px 12px rgb(15 31 56 / 0.06);
-  --shadow-md: 0 2px 4px rgb(15 31 56 / 0.04), 0 12px 32px rgb(15 31 56 / 0.09);
-  --shadow-lg: 0 4px 8px rgb(15 31 56 / 0.05), 0 24px 56px rgb(15 31 56 / 0.14);
+  --shadow-xs: 0 1px 2px rgb(21 24 66 / 0.06);
+  --shadow-sm: 0 1px 2px rgb(21 24 66 / 0.04), 0 4px 12px rgb(21 24 66 / 0.06);
+  --shadow-md: 0 2px 4px rgb(21 24 66 / 0.04), 0 12px 32px rgb(21 24 66 / 0.09);
+  --shadow-lg: 0 4px 8px rgb(21 24 66 / 0.05), 0 24px 56px rgb(21 24 66 / 0.14);
 
   --container: 1200px;
   --gutter: clamp(1.25rem, 4vw, 2rem);
@@ -340,7 +341,7 @@ button {
   height: 1.125rem;
   border-radius: 50%;
   background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f7347' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d01f25' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")
       center / 0.7rem no-repeat,
     var(--c-accent-soft);
 }
