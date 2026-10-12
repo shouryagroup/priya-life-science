@@ -73,7 +73,7 @@ These items were **not** in the company profile or assets, so the UI is ready fo
    };
    ```
    The section then appears after the facility gallery. The video loads only when the visitor presses play, and plays muted, inline, with native controls.
-3. **Logo**: a typographic wordmark (`src/components/ui/BrandMark.astro`, `public/favicon.svg`) stands in until an official logo is provided.
+3. **Logo**: the official logo renders via `src/components/ui/BrandMark.astro`; favicons (`public/favicon.ico`, `icon-192.png`, `apple-touch-icon.png`) are generated from `src/assets/images/brand/priya-life-science-icon-source.png`.
 4. **Partner photos**: the photo-to-name pairing in `src/data/media.ts` follows the partners' patronymic order in the profile (Hasmukh Chimanbhai Patel; Trushar **Hasmukhbhai** Patel). Please confirm before publishing.
 5. **Production domain**: build with `SITE_URL=https://your-domain npm run build` to emit the canonical URL, `og:url` and absolute Open Graph image URLs.
 

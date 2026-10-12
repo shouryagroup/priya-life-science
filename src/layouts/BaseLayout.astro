@@ -36,7 +36,9 @@ const jsonLd = toJsonLd(organizationSchema(site, site ? ogImageUrl : undefined))
     <meta name="format-detection" content="telephone=no" />
     {canonical && <link rel="canonical" href={canonical} />}
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
