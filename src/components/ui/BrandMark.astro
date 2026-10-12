@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../../assets/images/brand/priya-life-science-logo.svg';
+import logo from '../../assets/images/brand/priya-life-science-logo-web.png';
 import { company } from '../../data/company';
 
 interface Props {
@@ -11,7 +11,7 @@ const { tone = 'dark' } = Astro.props;
 ---
 
 <span class:list={['brand', `brand--${tone}`]}>
-  <Image class="brand__logo" src={logo} alt={company.name} height={46} loading="eager" decoding="async" />
+  <Image class="brand__logo" src={logo} alt={company.name} height={46} densities={[1, 2, 3]} loading="eager" decoding="async" />
 </span>
 
 <style>

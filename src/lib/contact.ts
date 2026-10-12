@@ -23,6 +23,11 @@ export function safeHref(raw: string): string | undefined {
 
 const digitsOnly = (value: string) => value.replace(/[^\d]/g, '');
 
+export function telHref(phone: string): string | undefined {
+  const plus = phone.trim().startsWith('+') ? '+' : '';
+  return safeHref(`tel:${plus}${digitsOnly(phone)}`);
+}
+
 export function getContactChannels(): ContactChannel[] {
   const channels: ContactChannel[] = [];
 
@@ -37,8 +42,7 @@ export function getContactChannels(): ContactChannel[] {
   }
 
   for (const phone of contact.phones) {
-    const plus = phone.value.trim().startsWith('+') ? '+' : '';
-    channels.push({ icon: 'phone', label: phone.label, value: phone.value, href: safeHref(`tel:${plus}${digitsOnly(phone.value)}`) });
+    channels.push({ icon: 'phone', label: phone.label, value: phone.value, href: telHref(phone.value) });
   }
 
   for (const email of contact.emails) {

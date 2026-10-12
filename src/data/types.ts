@@ -36,6 +36,7 @@ export interface Product {
 export interface Partner {
   name: string;
   role: string;
+  phone?: string;
   photo: Photo;
 }
 

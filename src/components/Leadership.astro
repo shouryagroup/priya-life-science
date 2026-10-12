@@ -1,8 +1,10 @@
 ---
 import { Picture } from 'astro:assets';
 import SectionHeading from './ui/SectionHeading.astro';
+import Icon from './ui/Icon.astro';
 import { partners, partnersBio } from '../data/media';
 import { company } from '../data/company';
+import { telHref } from '../lib/contact';
 ---
 
 <section class="section leadership" id="leadership" aria-labelledby="leadership-title">
@@ -30,6 +32,12 @@ import { company } from '../data/company';
               <p class="partner__role">
                 {partner.role}, {company.name}
               </p>
+              {partner.phone && (
+                <a class="partner__phone" href={telHref(partner.phone)}>
+                  <Icon name="phone" size={18} />
+                  {partner.phone}
+                </a>
+              )}
             </div>
           </li>
         ))
@@ -81,6 +89,23 @@ import { company } from '../data/company';
     font-size: 0.9375rem;
     font-weight: 560;
     color: var(--c-muted);
+  }
+
+  .partner__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-self: start;
+    min-height: 44px;
+    margin-top: 0.25rem;
+    font-weight: 620;
+    color: var(--c-brand);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .partner__phone:hover {
+    text-decoration: underline;
   }
 
   .leadership__note {

@@ -1,6 +1,6 @@
 // Source of truth: docs/company-profile.md. Do not add facts that are not in that document.
 import factoryVideoPoster from '../assets/images/factory-video-poster.jpg';
-import isoBadge from '../assets/images/iso-9001-certified.png';
+import isoBadge from '../assets/images/iso-9001-2015-certified.png';
 import type { Capability, ContactDetails, FactoryVideoConfig, NavItem } from './types';
 
 export const company = {
@@ -189,7 +189,7 @@ export const contact: ContactDetails = {
   locality: 'Waghodia',
   postalCode: '391760',
   gstin: '24AAKFP3605Q1ZV',
-  phones: [{ label: 'Telephone', value: '02668-262955' }],
+  phones: [{ label: 'Palak Patel', value: '+91 7229032143' }],
   emails: [],
   whatsapp: null,
   website: null,
@@ -199,9 +199,9 @@ export const contact: ContactDetails = {
 };
 
 export const certification = {
-  label: 'An ISO 9001 : 2000 Certified Company',
+  label: 'An ISO 9001 : 2015 Certified Company',
   image: isoBadge,
-  alt: 'ISO 9001 : 2000 certification mark',
+  alt: 'ISO 9001 : 2015 certification mark',
 };
 
 export const factoryVideo: FactoryVideoConfig | null = {

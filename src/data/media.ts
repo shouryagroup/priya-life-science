@@ -53,11 +53,13 @@ export const partners: Partner[] = [
   {
     name: 'Mr. Hasmukh Chimanbhai Patel',
     role: 'Partner',
+    phone: '+91 9714503300',
     photo: { src: hasmukhPatel, alt: 'Mr. Hasmukh Chimanbhai Patel working at his desk' },
   },
   {
     name: 'Mr. Trushar Hasmukhbhai Patel',
     role: 'Partner',
+    phone: '+91 9824414597',
     photo: { src: trusharPatel, alt: 'Mr. Trushar Hasmukhbhai Patel working at his desk' },
   },
 ];

@@ -171,9 +171,10 @@ Transcribed from the company signboard shown in the opening frames of the factor
 
 - **Address:** Plot No. 174-A/175, Siddhi Industrial Infrastructure Park, Opp. Waghodia G.I.D.C., Waghodia – 391 760, Gujarat, India
 - **GSTIN:** 24AAKFP3605Q1ZV
-- **Telephone:** 02668-262955
+- **Telephone:** Palak Patel — +91 7229032143
 - **Email:** not yet supplied
-- **Certification:** An ISO 9001 : 2000 Certified Company (badge: `src/assets/images/ISO_certified_Logo.png`)
+- **Certification:** An ISO 9001 : 2015 Certified Company (badge: `src/assets/images/ISO_certified_Logo.png`)
+- **Partner phones:** Mr. Hasmukh Chimanbhai Patel — +91 9714503300; Mr. Trushar Hasmukhbhai Patel — +91 9824414597
 
 ---
 

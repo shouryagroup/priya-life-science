@@ -26,3 +26,5 @@ pnpm-debug.log*
 # raw uploads (original photos carry EXIF/GPS metadata; sanitized copies live in src/assets)
 /assets/
 /uploads/
+# original factory footage (146 MB, over GitHub's file limit); the web encode lives in public/media
+src/assets/images/Factory_Video.mp4
